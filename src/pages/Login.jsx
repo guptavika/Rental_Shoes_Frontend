@@ -1,25 +1,20 @@
-// import api from "../services/api";
-import { useState } from "react";
-import { api } from "../../api";
+const submit = async () => {
+  try {
+    const res = await api.post("/login", {
+      email: form.email,
+      password: form.password,
+    });
 
-export default function Login() {
-  const [form, setForm] = useState({});
-
-  const login = async () => {
-    const res = await api.post("/login", form);
     localStorage.setItem("token", res.data.token);
 
-    if(res.data.role === "admin") window.location="/admin";
-    else if(res.data.role === "vendor") window.location="/vendor";
-    else window.location="/user";
-  };
+    // 👇 YAHI LOGIC HAI
+    if (res.data.role === "admin") {
+      navigate("/admin");
+    } else if (res.data.role === "user") {
+      navigate("/user");
+    }
 
-  return (
-    <div>
-      <h2>Login</h2>
-      <input placeholder="Email" onChange={e=>setForm({...form,email:e.target.value})}/>
-      <input type="password" placeholder="Password" onChange={e=>setForm({...form,password:e.target.value})}/>
-      <button onClick={login}>Login</button>
-    </div>
-  );
-}
+  } catch (err) {
+    alert("Invalid credentials");
+  }
+};
