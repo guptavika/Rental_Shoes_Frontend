@@ -33,7 +33,7 @@ export default function Login() {
       alert("Login successful!");
 
       // Role based redirect
-      if (res.data.role === "Admin") navigate("/Admin");
+      if (res.data.role === "Admin") navigate("/adminlayout");
       else if (res.data.role === "owner") navigate("/owner");
       else navigate("/user");
     } catch (err) {
