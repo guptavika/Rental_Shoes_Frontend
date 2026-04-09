@@ -25,8 +25,8 @@ const AdminLayout = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
+    localStorage.clear();
+    navigate("/login"); // ✅ FIXED
   };
 
   return (
@@ -55,6 +55,7 @@ const AdminLayout = () => {
         <Divider sx={{ background: "#333" }} />
 
         <List>
+          {/* Dashboard */}
           <ListItem disablePadding>
             <ListItemButton component={Link} to="dashboard">
               <DashboardIcon sx={{ mr: 1 }} />
@@ -62,13 +63,15 @@ const AdminLayout = () => {
             </ListItemButton>
           </ListItem>
 
+          {/* Add Shoes (same as manage-shoes) */}
           <ListItem disablePadding>
-            <ListItemButton component={Link} to="/admin">
+            <ListItemButton component={Link} to="manage-shoes">
               <AddBoxIcon sx={{ mr: 1 }} />
               <ListItemText primary="Add Shoes" />
             </ListItemButton>
           </ListItem>
 
+          {/* Manage Shoes */}
           <ListItem disablePadding>
             <ListItemButton component={Link} to="manage-shoes">
               <InventoryIcon sx={{ mr: 1 }} />
@@ -76,6 +79,7 @@ const AdminLayout = () => {
             </ListItemButton>
           </ListItem>
 
+          {/* Bookings */}
           <ListItem disablePadding>
             <ListItemButton component={Link} to="bookings">
               <ShoppingCartIcon sx={{ mr: 1 }} />
@@ -83,6 +87,7 @@ const AdminLayout = () => {
             </ListItemButton>
           </ListItem>
 
+          {/* Users */}
           <ListItem disablePadding>
             <ListItemButton component={Link} to="users">
               <PeopleIcon sx={{ mr: 1 }} />
@@ -90,6 +95,7 @@ const AdminLayout = () => {
             </ListItemButton>
           </ListItem>
 
+          {/* Reports */}
           <ListItem disablePadding>
             <ListItemButton component={Link} to="reports">
               <AssessmentIcon sx={{ mr: 1 }} />
@@ -98,6 +104,7 @@ const AdminLayout = () => {
           </ListItem>
         </List>
 
+        {/* Logout */}
         <Box sx={{ mt: "auto", p: 2 }}>
           <Button
             variant="contained"
@@ -120,7 +127,7 @@ const AdminLayout = () => {
           minHeight: "100vh"
         }}
       >
-        <Outlet />
+        <Outlet /> {/* ✅ VERY IMPORTANT */}
       </Box>
     </Box>
   );

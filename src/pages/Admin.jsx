@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -15,8 +16,11 @@ import {
   Box,
   Typography
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Admin() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     id: "",
     name: "",
@@ -50,24 +54,29 @@ export default function Admin() {
   const handleClose = () => setOpen(false);
 
   const handleSubmit = async () => {
-    const fd = new FormData();
-    fd.append("name", form.name);
-    fd.append("brand", form.brand);
-    fd.append("price", form.price);
-    fd.append("sizes", form.sizes);
-    fd.append("image", image);
+    try {
+      const fd = new FormData();
+      fd.append("name", form.name);
+      fd.append("brand", form.brand);
+      fd.append("price", form.price);
+      fd.append("sizes", form.sizes);
+      fd.append("image", image);
 
-    if (form.id) {
-      await axios.put(
-        `http://localhost:5000/api/shoes/${form.id}`,
-        fd
-      );
-    } else {
-      await axios.post("http://localhost:5000/api/shoes/add", fd);
+      if (form.id) {
+        await axios.put(
+          `http://localhost:5000/api/shoes/${form.id}`,
+          fd
+        );
+      } else {
+        await axios.post("http://localhost:5000/api/shoes/add", fd);
+      }
+
+      fetchShoes();
+      handleClose();
+    } catch (err) {
+      console.log(err.response);
+      alert("Something went wrong");
     }
-
-    fetchShoes();
-    handleClose();
   };
 
   const deleteShoe = async (id) => {
@@ -82,13 +91,25 @@ export default function Admin() {
 
   return (
     <Box p={4}>
-      <Typography variant="h4" mb={2}>
-        Admin Shoes Panel
-      </Typography>
+      {/* HEADER */}
+      <Box display="flex" alignItems="center" mb={2}>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIcon />}
+          sx={{ mr: 2 }}
+          onClick={() => navigate("/adminlayout/dashboard")}
+        >
+          Back
+        </Button>
 
-      <Button variant="contained" onClick={handleOpen}>
-        Add Shoe
-      </Button>
+        <Typography variant="h4" sx={{ flexGrow: 1 }}>
+          Admin Shoes Panel
+        </Typography>
+
+        <Button variant="contained" onClick={handleOpen}>
+          Add Shoe
+        </Button>
+      </Box>
 
       {/* TABLE */}
       <Table sx={{ mt: 3 }}>
@@ -110,6 +131,7 @@ export default function Admin() {
                 <img
                   src={`http://localhost:5000/uploads/${s.image}`}
                   width="60"
+                  alt="shoe"
                 />
               </TableCell>
               <TableCell>{s.name}</TableCell>

@@ -22,7 +22,7 @@ export default function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const submit = async () => {
-    try {
+  
       const res = await api.post("/login", form);
 
       // Save
@@ -33,12 +33,10 @@ export default function Login() {
       alert("Login successful!");
 
       // Role based redirect
-      if (res.data.role === "Admin") navigate("/adminlayout");
+      if (res.data.role === "Admin") navigate("/admin/dashboard");
       else if (res.data.role === "owner") navigate("/owner");
-      else navigate("/user");
-    } catch (err) {
-      alert(err?.response?.data?.error || "Login failed");
-    }
+      else if (res.data.role === "Users") navigate("/user/dashboard");
+    
   };
 
   return (
