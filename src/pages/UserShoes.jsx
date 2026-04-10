@@ -1,6 +1,5 @@
-// UserShoes.jsx
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api as API } from "../../api"; // ✅ axios direct nahi, api.js use kar
 import {
   Box,
   Card,
@@ -13,7 +12,7 @@ export default function UserShoes() {
   const [shoes, setShoes] = useState([]);
 
   const fetchShoes = async () => {
-    const res = await axios.get("http://localhost:5000/api/shoes");
+    const res = await API.get("/shoes");
     setShoes(res.data);
   };
 
@@ -21,16 +20,12 @@ export default function UserShoes() {
     fetchShoes();
   }, []);
 
-  const bookShoe = async (shoeId) => {
+  const addToCart = async (shoe_id) => {
     try {
-      await axios.post("http://localhost:5000/api/bookings", {
-        shoeId,
-        user: localStorage.getItem("name")
-      });
-
-      alert("Booking successful!");
+      await API.post("/cart", { shoe_id }); // ✅ /api/cart pe ja raha hai
+      alert("Cart mein add ho gaya! ✅");
     } catch (err) {
-      alert("Booking failed");
+      alert("Error: " + err.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -41,6 +36,7 @@ export default function UserShoes() {
           <img
             src={`http://localhost:5000/uploads/${s.image}`}
             height="150"
+            width="100%"
           />
 
           <CardContent>
@@ -52,9 +48,9 @@ export default function UserShoes() {
               fullWidth
               variant="contained"
               sx={{ mt: 1 }}
-              onClick={() => bookShoe(s.id)}
+              onClick={() => addToCart(s.id)} // ✅ cart mein add
             >
-              Book Now
+              Add to Cart 🛒
             </Button>
           </CardContent>
         </Card>

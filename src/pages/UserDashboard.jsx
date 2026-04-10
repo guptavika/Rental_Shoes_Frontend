@@ -1,45 +1,63 @@
+import { Box, Button, Stack } from "@mui/material";
 import { useState } from "react";
+import ShoeList from "./ShoeList";
+import Cart from "./Cart";
+import RentalHistory from "./RentalHistory";
 
 const UserDashboard = () => {
-  const [stats] = useState({
-    totalShoes: 120,
-    available: 80,
-    rented: 40,
-    users: 35,
-    revenue: 25000
-  });
+  const [tab, setTab] = useState("shoes");
 
   return (
-    <div>
-      <h1>UserDashboard</h1>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start", // ✅ not center (avoids navbar overlap)
+        pt: { xs: "80px", md: "100px" }, // 🔥 SPACE FROM NAVBAR
+        bgcolor: "#f5f5f5",
+        px: 2
+      }}
+    >
+      {/* 🔥 TABS */}
+      <Stack direction="row" spacing={2} mb={4}>
+        <Button
+          variant={tab === "shoes" ? "contained" : "outlined"}
+          onClick={() => setTab("shoes")}
+        >
+          Shoes
+        </Button>
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-        gap: "20px",
-        marginTop: "20px"
-      }}>
-        <Card title="Total Shoes" value={stats.totalShoes} />
-        <Card title="Available Shoes" value={stats.available} />
-        <Card title="Rented Shoes" value={stats.rented} />
-        <Card title="Total Users" value={stats.users} />
-        <Card title="Total Revenue" value={`₹${stats.revenue}`} />
-      </div>
-    </div>
-  );
-};
+        <Button
+          variant={tab === "cart" ? "contained" : "outlined"}
+          onClick={() => setTab("cart")}
+        >
+          Cart
+        </Button>
 
-const Card = ({ title, value }) => {
-  return (
-    <div style={{
-      background: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
-    }}>
-      <h3>{title}</h3>
-      <h2>{value}</h2>
-    </div>
+        <Button
+          variant={tab === "history" ? "contained" : "outlined"}
+          onClick={() => setTab("history")}
+        >
+          History
+        </Button>
+      </Stack>
+
+      {/* 🔥 CONTENT BOX (CENTERED LOOK) */}
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 800,
+          display: "flex",
+          justifyContent: "center"
+        }}
+      >
+        {tab === "shoes" && <ShoeList />}
+        {tab === "cart" && <Cart />}
+        {tab === "history" && <RentalHistory />}
+      </Box>
+    </Box>
   );
 };
 
