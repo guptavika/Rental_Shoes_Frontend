@@ -18,6 +18,9 @@ import UserBookings from "./pages/UserBookings";
 
 import PrivateRoute from "./components/PrivateRoute";
 import Navbar from "./pages/Navbar";
+import HowItWorks from "./pages/HowItWorks";
+import Collection from "./pages/Collection";
+import WhyUs from "./pages/WhyUs";
 // import Navbar from "./components/Navbar";
 
 /* 🔥 Wrapper to use useLocation */
@@ -36,6 +39,9 @@ function AppContent() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
+         <Route path="/how-it-works" element={<HowItWorks />} />
+  <Route path="/collection" element={<Collection />} />
+  <Route path="/why-us" element={<WhyUs />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 

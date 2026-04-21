@@ -9,7 +9,7 @@ import {
   Drawer,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -24,7 +24,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isLanding = location.pathname === "/";
+  // Check if current path is active
+  const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -37,15 +38,14 @@ export default function Navbar() {
       {/* NAVBAR */}
       <AppBar
         position="fixed"
-        elevation={scrolled || !isLanding ? 4 : 0}
+        elevation={scrolled ? 4 : 0}
         sx={{
-          bgcolor: scrolled || !isLanding ? "white" : "transparent",
-          color: scrolled || !isLanding ? "black" : "white",
-          transition: "all 0.3s"
+          bgcolor: scrolled ? "white" : "transparent",
+          color: scrolled ? "black" : "white",
+          transition: "all 0.3s",
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
-
           {/* LOGO */}
           <Box
             sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
@@ -57,7 +57,7 @@ export default function Navbar() {
                 px: 1.5,
                 py: 1,
                 borderRadius: 2,
-                mr: 1
+                mr: 1,
               }}
             >
               👟
@@ -68,31 +68,64 @@ export default function Navbar() {
             </Typography>
           </Box>
 
-          {/* DESKTOP LINKS */}
+          {/* DESKTOP LINKS - SHOW ON ALL PAGES */}
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 3 }}>
-            {isLanding && (
-              <>
-                <Button href="#how-it-works" color="inherit">
-                  How It Works
-                </Button>
-                <Button href="#collection" color="inherit">
-                  Collection
-                </Button>
-                <Button href="#why-us" color="inherit">
-                  Why Us
-                </Button>
-              </>
-            )}
+            <Button
+              onClick={() => navigate("/how-it-works")}
+              sx={{
+                fontWeight: isActive("/how-it-works") ? 700 : 500,
+                borderBottom: isActive("/how-it-works") ? "2px solid #0288d1" : "none",
+                borderRadius: 0,
+                '&:hover': {
+                  borderBottom: "2px solid #0288d1",
+                }
+              }}
+            >
+              How It Works
+            </Button>
+
+            <Button
+              onClick={() => navigate("/collection")}
+              sx={{
+                fontWeight: isActive("/collection") ? 700 : 500,
+                borderBottom: isActive("/collection") ? "2px solid #0288d1" : "none",
+                borderRadius: 0,
+                '&:hover': {
+                  borderBottom: "2px solid #0288d1",
+                }
+              }}
+            >
+              Collection
+            </Button>
+
+            <Button
+              onClick={() => navigate("/why-us")}
+              sx={{
+                fontWeight: isActive("/why-us") ? 700 : 500,
+                borderBottom: isActive("/why-us") ? "2px solid #0288d1" : "none",
+                borderRadius: 0,
+                '&:hover': {
+                  borderBottom: "2px solid #0288d1",
+                }
+              }}
+            >
+              Why Us
+            </Button>
           </Box>
 
           {/* DESKTOP BUTTONS */}
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
-            <Button onClick={() => navigate("/login")}>
+            <Button 
+              onClick={() => navigate("/login")}
+              sx={{
+                color: scrolled ? "black" : "white",
+              }}
+            >
               Log In
             </Button>
 
-            <Button
-              variant="contained"
+            <Button 
+              variant="contained" 
               onClick={() => navigate("/register")}
             >
               Get Started
@@ -106,7 +139,7 @@ export default function Navbar() {
           >
             <MenuIcon
               sx={{
-                color: scrolled || !isLanding ? "black" : "white"
+                color: scrolled ? "black" : "white",
               }}
             />
           </IconButton>
@@ -114,13 +147,8 @@ export default function Navbar() {
       </AppBar>
 
       {/* MOBILE DRAWER */}
-      <Drawer
-        anchor="right"
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-      >
+      <Drawer anchor="right" open={menuOpen} onClose={() => setMenuOpen(false)}>
         <Box sx={{ width: 250, p: 2 }}>
-
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <IconButton onClick={() => setMenuOpen(false)}>
               <CloseIcon />
@@ -128,19 +156,66 @@ export default function Navbar() {
           </Box>
 
           <List>
-            {isLanding && (
-              <>
-                <ListItem button component="a" href="#how-it-works">
-                  <ListItemText primary="How It Works" />
-                </ListItem>
-                <ListItem button component="a" href="#collection">
-                  <ListItemText primary="Collection" />
-                </ListItem>
-                <ListItem button component="a" href="#why-us">
-                  <ListItemText primary="Why Us" />
-                </ListItem>
-              </>
-            )}
+            {/* Navigation Links - Always visible in mobile menu */}
+            <ListItem
+              button
+              onClick={() => {
+                navigate("/how-it-works");
+                setMenuOpen(false);
+              }}
+              sx={{
+                bgcolor: isActive("/how-it-works") ? "rgba(2, 136, 209, 0.1)" : "transparent",
+              }}
+            >
+              <ListItemText 
+                primary="How It Works" 
+                primaryTypographyProps={{
+                  fontWeight: isActive("/how-it-works") ? 700 : 400,
+                  color: isActive("/how-it-works") ? "#0288d1" : "inherit",
+                }}
+              />
+            </ListItem>
+
+            <ListItem
+              button
+              onClick={() => {
+                navigate("/collection");
+                setMenuOpen(false);
+              }}
+              sx={{
+                bgcolor: isActive("/collection") ? "rgba(2, 136, 209, 0.1)" : "transparent",
+              }}
+            >
+              <ListItemText 
+                primary="Collection" 
+                primaryTypographyProps={{
+                  fontWeight: isActive("/collection") ? 700 : 400,
+                  color: isActive("/collection") ? "#0288d1" : "inherit",
+                }}
+              />
+            </ListItem>
+
+            <ListItem
+              button
+              onClick={() => {
+                navigate("/why-us");
+                setMenuOpen(false);
+              }}
+              sx={{
+                bgcolor: isActive("/why-us") ? "rgba(2, 136, 209, 0.1)" : "transparent",
+              }}
+            >
+              <ListItemText 
+                primary="Why Us" 
+                primaryTypographyProps={{
+                  fontWeight: isActive("/why-us") ? 700 : 400,
+                  color: isActive("/why-us") ? "#0288d1" : "inherit",
+                }}
+              />
+            </ListItem>
+
+            {/* Divider */}
+            <Box sx={{ my: 1, borderTop: "1px solid #e0e0e0" }} />
 
             <ListItem
               button
