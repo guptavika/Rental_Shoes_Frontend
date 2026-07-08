@@ -59,7 +59,12 @@ export default function UserLayout() {
             </ListItemButton>
           </ListItem>
         </List>
-
+<ListItem disablePadding>
+  <ListItemButton component={Link} to="/user/cart">
+    <ShoppingCartIcon sx={{ mr: 1 }} />
+    <ListItemText primary="My Cart" />
+  </ListItemButton>
+</ListItem>
         <Box sx={{ mt: "auto", p: 2 }}>
           <Typography>{name}</Typography>
           <Button fullWidth color="error" onClick={logout}>

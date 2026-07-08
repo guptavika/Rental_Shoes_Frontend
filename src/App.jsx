@@ -21,6 +21,7 @@ import Navbar from "./pages/Navbar";
 import HowItWorks from "./pages/HowItWorks";
 import Collection from "./pages/Collection";
 import WhyUs from "./pages/WhyUs";
+import UserCart from "./pages/UserCart";
 // import Navbar from "./components/Navbar";
 
 /* 🔥 Wrapper to use useLocation */
@@ -69,8 +70,10 @@ function AppContent() {
               <UserLayout />
             </PrivateRoute>
           }
+          
         >
           <Route index element={<UserDashboard />} />
+          <Route path="cart" element={<UserCart />} />
           <Route path="dashboard" element={<UserDashboard />} />
           <Route path="shoes" element={<UserShoes />} />
           <Route path="bookings" element={<UserBookings />} />
