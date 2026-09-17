@@ -4,28 +4,23 @@ import { api } from "../../api";
 
 import {
   Box,
-  Grid,
   TextField,
   Button,
   Typography,
   Paper,
   IconButton,
   InputAdornment,
-  Divider
+  Divider,
 } from "@mui/material";
 
-import {
-  Visibility,
-  VisibilityOff,
-  CheckCircle
-} from "@mui/icons-material";
+import { Visibility, VisibilityOff, CheckCircle } from "@mui/icons-material";
 
 export default function Register() {
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
-    role: "user"
+    role: "user",
   });
 
   const [showPass, setShowPass] = useState(false);
@@ -53,23 +48,28 @@ export default function Register() {
     "Access to 500+ premium shoe styles",
     "Free delivery on orders over $30",
     "Flexible rentals",
-    "Sanitized shoes guaranteed"
+    "Sanitized shoes guaranteed",
   ];
 
   return (
-    <Grid container sx={{ minHeight: "100vh" }}>
-
-      {/* LEFT SIDE */}
-      <Grid
-        item
-        md={6}
+    // 🔵 Main Container: 50-50 Split with Flexbox
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        flexDirection: { xs: "column", md: "row" }, // Mobile: Column, Desktop: Row
+      }}
+    >
+      {/* 🔵 LEFT SIDE (50% Width on Desktop) */}
+      <Box
         sx={{
-          display: { xs: "none", md: "flex" },
+          width: { xs: "100%", md: "50%" },
+          display: { xs: "none", md: "flex" }, // Mobile par hide
           position: "relative",
           backgroundImage:
             "url(https://images.pexels.com/photos/1456706/pexels-photo-1456706.jpeg)",
           backgroundSize: "cover",
-          backgroundPosition: "center"
+          backgroundPosition: "center",
         }}
       >
         {/* Overlay */}
@@ -78,7 +78,7 @@ export default function Register() {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(135deg, rgba(2,136,209,0.85), rgba(0,0,0,0.85))"
+              "linear-gradient(135deg, rgba(2,136,209,0.85), rgba(0,0,0,0.85))",
           }}
         />
 
@@ -86,11 +86,11 @@ export default function Register() {
           sx={{
             position: "relative",
             color: "white",
-            p: 8,
+            p: { xs: 4, md: 8 }, // Responsive padding
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            width: "100%"
+            width: "100%",
           }}
         >
           <Typography variant="h4" fontWeight="bold">
@@ -98,11 +98,16 @@ export default function Register() {
           </Typography>
 
           <Box>
-            <Typography variant="h3" fontWeight="bold" mb={2}>
+            <Typography
+              variant="h3"
+              fontWeight="bold"
+              mb={2}
+              fontSize={{ xs: "2rem", md: "3rem" }} // Responsive font size
+            >
               Join Smart Shoe Renters
             </Typography>
 
-            <Typography sx={{ mb: 4, opacity: 0.9 }}>
+            <Typography sx={{ mb: 4, opacity: 0.9, fontSize: { xs: "1rem", md: "1.1rem" } }}>
               Experience premium footwear without commitment.
             </Typography>
 
@@ -114,31 +119,34 @@ export default function Register() {
             ))}
           </Box>
         </Box>
-      </Grid>
+      </Box>
 
-      {/* RIGHT SIDE */}
-      <Grid
-        item
-        xs={12}
-        md={6}
+      {/* ⚪ RIGHT SIDE (50% Width on Desktop) */}
+      <Box
         sx={{
+          width: { xs: "100%", md: "50%" }, // Exact 50% on desktop
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           bgcolor: "#f4f6f8",
-          p: 3
+          p: 3,
         }}
       >
         <Paper
           elevation={6}
           sx={{
-            p: 5,
+            p: { xs: 3, sm: 5 }, // Responsive padding
             width: "100%",
             maxWidth: 420,
-            borderRadius: 4
+            borderRadius: 4,
           }}
         >
-          <Typography variant="h4" fontWeight="bold" mb={1}>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            mb={1}
+            fontSize={{ xs: "1.75rem", md: "2.125rem" }}
+          >
             Create Account
           </Typography>
 
@@ -176,7 +184,7 @@ export default function Register() {
                     {showPass ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
-              )
+              ),
             }}
           />
 
@@ -189,7 +197,7 @@ export default function Register() {
               py: 1.5,
               borderRadius: 2,
               textTransform: "none",
-              fontWeight: "bold"
+              fontWeight: "bold",
             }}
             onClick={submit}
             disabled={loading}
@@ -205,7 +213,7 @@ export default function Register() {
               style={{
                 color: "#0288d1",
                 cursor: "pointer",
-                fontWeight: 600
+                fontWeight: 600,
               }}
               onClick={() => navigate("/login")}
             >
@@ -213,7 +221,7 @@ export default function Register() {
             </span>
           </Typography>
         </Paper>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }

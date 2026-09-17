@@ -48,7 +48,7 @@ const AdminLayout = () => {
       >
         <Toolbar>
           <Typography variant="h6" fontWeight="bold">
-            Admin Panel
+            Admin Panellll
           </Typography>
         </Toolbar>
 

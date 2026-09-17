@@ -4,21 +4,16 @@ import { api } from "../../api";
 
 import {
   Box,
-  Grid,
   TextField,
   Button,
   Typography,
   Paper,
   IconButton,
   InputAdornment,
-  Divider
+  Divider,
 } from "@mui/material";
 
-import {
-  Visibility,
-  VisibilityOff,
-  ArrowBack
-} from "@mui/icons-material";
+import { Visibility, VisibilityOff, ArrowBack } from "@mui/icons-material";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -46,7 +41,6 @@ export default function Login() {
       if (res.data.role === "Admin") navigate("/admin/dashboard");
       else if (res.data.role === "owner") navigate("/owner");
       else navigate("/user/dashboard");
-
     } catch (err) {
       setError(err?.response?.data?.error || "Login failed");
     } finally {
@@ -55,19 +49,24 @@ export default function Login() {
   };
 
   return (
-    <Grid container sx={{ minHeight: "100vh" }}>
-
-      {/* 🔵 LEFT SIDE */}
-      <Grid
-        item
-        md={6}
+    // 🔵 Main Container: 50-50 Split with Flexbox
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        flexDirection: { xs: "column", md: "row" }, // Mobile par column, desktop par row
+      }}
+    >
+      {/* 🔵 LEFT SIDE (50% Width on Desktop) */}
+      <Box
         sx={{
-          display: { xs: "none", md: "flex" },
+          width: { xs: "100%", md: "50%" },
+          display: { xs: "none", md: "flex" }, // Mobile par hide
           position: "relative",
           backgroundImage:
             "url(https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg)",
           backgroundSize: "cover",
-          backgroundPosition: "center"
+          backgroundPosition: "center",
         }}
       >
         {/* Gradient Overlay */}
@@ -76,7 +75,7 @@ export default function Login() {
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(135deg, rgba(2,136,209,0.9), rgba(0,0,0,0.9))"
+              "linear-gradient(135deg, rgba(2,136,209,0.9), rgba(0,0,0,0.9))",
           }}
         />
 
@@ -84,12 +83,12 @@ export default function Login() {
         <Box
           sx={{
             position: "relative",
-            p: 10,
+            p: { xs: 4, md: 10 },
             color: "white",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            width: "100%"
+            width: "100%",
           }}
         >
           <Typography variant="h3" fontWeight="bold">
@@ -100,9 +99,13 @@ export default function Login() {
             <Typography
               variant="h4"
               fontWeight={300}
-              sx={{ lineHeight: 1.4, mb: 4 }}
+              sx={{
+                lineHeight: 1.4,
+                mb: 4,
+                fontSize: { xs: "1.5rem", md: "2rem" }, // Responsive font size
+              }}
             >
-              Wear premium shoes  
+              Wear premium shoes
               <br /> without paying premium prices.
             </Typography>
 
@@ -121,31 +124,29 @@ export default function Login() {
             </Box>
           </Box>
         </Box>
-      </Grid>
+      </Box>
 
-      {/* ⚪ RIGHT SIDE */}
-      <Grid
-        item
-        xs={12}
-        md={6}
+      {/* ⚪ RIGHT SIDE (50% Width on Desktop) */}
+      <Box
         sx={{
+          width: { xs: "100%", md: "50%" }, // Exact 50% on desktop
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           bgcolor: "#f8fafc",
-          p: 3
+          p: 3,
         }}
       >
         <Paper
           elevation={0}
           sx={{
-            p: 5,
+            p: { xs: 3, sm: 5 }, // Responsive padding
             width: "100%",
             maxWidth: 420,
             borderRadius: 4,
             backdropFilter: "blur(10px)",
             background: "rgba(255,255,255,0.8)",
-            boxShadow: "0 10px 40px rgba(0,0,0,0.1)"
+            boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
           }}
         >
           {/* Back */}
@@ -158,7 +159,12 @@ export default function Login() {
           </Button>
 
           {/* Heading */}
-          <Typography variant="h4" fontWeight="bold" mb={1}>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            mb={1}
+            fontSize={{ xs: "1.75rem", md: "2.125rem" }}
+          >
             Welcome back 👋
           </Typography>
 
@@ -175,7 +181,7 @@ export default function Login() {
                 bgcolor: "#fdecea",
                 borderRadius: 2,
                 color: "#d32f2f",
-                fontSize: 14
+                fontSize: 14,
               }}
             >
               {error}
@@ -192,8 +198,8 @@ export default function Login() {
               onChange={handleChange}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: 2
-                }
+                  borderRadius: 2,
+                },
               }}
             />
 
@@ -206,8 +212,8 @@ export default function Login() {
               onChange={handleChange}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: 2
-                }
+                  borderRadius: 2,
+                },
               }}
               InputProps={{
                 endAdornment: (
@@ -216,7 +222,7 @@ export default function Login() {
                       {showPass ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
             />
 
@@ -231,8 +237,7 @@ export default function Login() {
                 borderRadius: 2,
                 fontWeight: "bold",
                 textTransform: "none",
-                background:
-                  "linear-gradient(135deg, #0288d1, #42a5f5)"
+                background: "linear-gradient(135deg, #0288d1, #42a5f5)",
               }}
               disabled={loading}
             >
@@ -248,7 +253,7 @@ export default function Login() {
               style={{
                 color: "#0288d1",
                 cursor: "pointer",
-                fontWeight: 600
+                fontWeight: 600,
               }}
               onClick={() => navigate("/register")}
             >
@@ -256,7 +261,7 @@ export default function Login() {
             </span>
           </Typography>
         </Paper>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }

@@ -22,31 +22,32 @@ import HowItWorks from "./pages/HowItWorks";
 import Collection from "./pages/Collection";
 import WhyUs from "./pages/WhyUs";
 import UserCart from "./pages/UserCart";
-// import Navbar from "./components/Navbar";
 
 /* 🔥 Wrapper to use useLocation */
 function AppContent() {
   const location = useLocation();
 
-  // Hide navbar on auth pages
-  const hideNavbar =
-    location.pathname === "/login" ||
-    location.pathname === "/register";
+  // ✅ Navbar hide karne wale routes
+  const HIDE_NAVBAR_PREFIXES = ["/login", "/register", "/admin", "/user"];
+
+  const hideNavbar = HIDE_NAVBAR_PREFIXES.some((prefix) =>
+    location.pathname.startsWith(prefix)
+  );
 
   return (
     <>
       {!hideNavbar && <Navbar />}
 
       <Routes>
-        {/* Public Routes */}
+        {/* ---------- Public Routes ---------- */}
         <Route path="/" element={<LandingPage />} />
-         <Route path="/how-it-works" element={<HowItWorks />} />
-  <Route path="/collection" element={<Collection />} />
-  <Route path="/why-us" element={<WhyUs />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/collection" element={<Collection />} />
+        <Route path="/why-us" element={<WhyUs />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Admin Routes */}
+        {/* ---------- Admin Routes ---------- */}
         <Route
           path="/admin"
           element={
@@ -62,7 +63,7 @@ function AppContent() {
           <Route path="reports" element={<Reports />} />
         </Route>
 
-        {/* User Routes */}
+        {/* ---------- User Routes ---------- */}
         <Route
           path="/user"
           element={
@@ -70,12 +71,11 @@ function AppContent() {
               <UserLayout />
             </PrivateRoute>
           }
-          
         >
           <Route index element={<UserDashboard />} />
-          <Route path="cart" element={<UserCart />} />
           <Route path="dashboard" element={<UserDashboard />} />
           <Route path="shoes" element={<UserShoes />} />
+          <Route path="cart" element={<UserCart />} />
           <Route path="bookings" element={<UserBookings />} />
         </Route>
       </Routes>
