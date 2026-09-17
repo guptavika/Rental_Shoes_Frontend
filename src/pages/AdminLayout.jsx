@@ -37,12 +37,12 @@ const navItems = [
     to: "/admin/dashboard",
     icon: <DashboardIcon fontSize="small" />,
   },
-  {
-    label: "Add Shoes",
-    to: "/admin/manage-shoes",
-    icon: <AddBoxIcon fontSize="small" />,
-    match: "/admin/manage-shoes",
-  },
+  // {
+  //   label: "Add Shoes",
+  //   to: "/admin/manage-shoes",
+  //   icon: <AddBoxIcon fontSize="small" />,
+  //   match: "/admin/manage-shoes",
+  // },
   {
     label: "Manage Shoes",
     to: "/admin/manage-shoes",
