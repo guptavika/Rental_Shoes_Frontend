@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  // baseURL: "http://localhost:5000/api",  //LOCAL
+  baseURL: "https://rental-shoes-backend.onrender.com/api" // PRODUCTION
+
 });
 
 api.interceptors.request.use((config) => {
